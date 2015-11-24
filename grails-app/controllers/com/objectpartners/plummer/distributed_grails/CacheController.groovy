@@ -6,15 +6,20 @@ import javax.cache.CacheManager
 
 class CacheController {
 
-    CacheManager cacheManager
+    def cacheManager
+
+    def hazelcastService
 
     def index () {
         def caches = [];
         cacheManager.getCacheNames().each {cacheName ->
-            caches << [name: cacheName, size: cacheManager.getCache(cacheName).size()]
+            caches << [name: cacheName, size: cacheManager.getCache(cacheName).size(), source: 'JCache']
+        }
+        hazelcastService.getDistributedObjects().each { distributedObject ->
+            caches << [name: distributedObject.getName(), type: distributedObject.getClass().getSimpleName(), source: 'Hazelcast']
         }
         def info = [caches: caches,
-                    props: cacheManager.getProperties().getProperties()]
+                    jcacheProps: cacheManager.getProperties().getProperties()]
         render info as JSON
     }
 }

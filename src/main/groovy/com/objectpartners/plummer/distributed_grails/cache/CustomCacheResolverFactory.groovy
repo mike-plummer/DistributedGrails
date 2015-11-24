@@ -30,7 +30,7 @@ class CustomCacheResolverFactory implements CacheResolverFactory {
 
         @Override
         def <K, V> Cache<K, V> resolveCache(CacheInvocationContext<? extends Annotation> ctx) {
-            System.out.println("Retrieving cache ${ctx.getCacheName()}")
+            println("Retrieving cache ${ctx.getCacheName()}")
             return cacheManager.getCache(ctx.getCacheName())
         }
     }

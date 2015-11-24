@@ -18,7 +18,7 @@ class CustomCacheKeyGenerator implements CacheKeyGenerator, Serializable {
         def delegates;
 
         DelegatingCacheKey(def delegates) {
-            System.out.println(delegates)
+            println(delegates)
             this.delegates = delegates;
         }
 

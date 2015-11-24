@@ -19,17 +19,21 @@ class BootStrap {
         def oldestClusterMember = hazelcastService.getCluster().getMembers().iterator().next()
         if (oldestClusterMember.getUuid().equals(hazelcastService.getCluster().getLocalMember().getUuid())) {
             // Load City data from CSV into Hazelcast
-            System.out.println("Loading City data...")
+            println("Loading City data...")
+            long counter = 0;
             BootStrap.class.getResourceAsStream("/cities.csv").withStream { stream ->
                 CSVParser parser = new CSVParser(new InputStreamReader(stream), FORMAT)
                 parser.getRecords().each({ record ->
                     City city = new City(name: record.get("name"), state: record.get("state"), population: Long.valueOf(record.get("population")))
                     cityDataService.addOrUpdate(city)
+                    if (++counter % 100 == 0) {
+                        println("Loaded ${counter} records")
+                    }
                 })
             }
-            System.out.println("City data loaded.")
+            println("City data loaded.")
         } else {
-            System.out.println("Not oldest cluster member, skipping City data loading.")
+            println("Not oldest cluster member, skipping City data loading.")
         }
     }
 

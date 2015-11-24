@@ -27,7 +27,7 @@ class CityService {
 
     @CacheResult
     City get (@CacheKey long id) {
-        System.out.println("Uncached get()")
+        println("Uncached get()")
         cityDataService.get(id)
     }
 

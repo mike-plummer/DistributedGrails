@@ -8,18 +8,18 @@ import javax.cache.Caching
 beans = {
     cacheManager (HazelcastServerCacheManager) { beanDefinition ->
 
-        System.out.println("Configuring CacheManager...")
+        println("Configuring CacheManager...")
 
         // Pass in the Hazelcast provider and Hazelcast instance
         // Use 'null' for custom URI, classloader, and properties since we just want to use the defaults
         beanDefinition.constructorArgs = [Caching.getCachingProvider(HazelcastServerCachingProvider.class.getName()),
                                           ref('hazelcastService'), null, null, null]
 
-        System.out.println("CacheManager configured.")
+        println("CacheManager configured.")
     }
 
     cityCache (CityCache) { beanDefinition ->
         beanDefinition.constructorArgs = [ref('cacheManager')]
-        System.out.println("Initializing CityCache")
+        println("Initializing CityCache")
     }
 }

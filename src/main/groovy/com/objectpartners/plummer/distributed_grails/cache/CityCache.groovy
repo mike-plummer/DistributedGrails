@@ -17,7 +17,7 @@ class CityCache implements Serializable {
     public static final String CITY_CACHE_NAME = "com.objectpartners.plummer.distributed_grails.cache.City"
 
     CityCache(CacheManager cacheManager) {
-        System.out.println("Creating City cache...")
+        println("Creating City cache...")
 
         // Create a simple but typesafe configuration for the cache
         CompleteConfiguration<Long, City> config = new MutableConfiguration<>()
@@ -29,6 +29,6 @@ class CityCache implements Serializable {
         )
 
         cacheManager.createCache(CITY_CACHE_NAME, config)
-        System.out.println("City cache created.")
+        println("City cache created.")
     }
 }

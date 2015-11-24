@@ -44,6 +44,9 @@ workaround is pretty trivial:
 
 `docker-compose up --force-recreate -d`
 
+To get the status of the load balancer and the backing cluster you can access HAProxy's
+[stats page](http://localhost:1936) with username/password `stats/stats`.
+
 Once you're done you can now shut down the docker containers running in the background.
 
 `docker-compose stop`
