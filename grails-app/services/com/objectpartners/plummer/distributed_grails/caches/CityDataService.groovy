@@ -4,9 +4,9 @@ import com.objectpartners.plummer.distributed_grails.City
 
 class CityDataService extends AbstractDataService<City> {
 
-    private static final String CITY_CACHE = "com.objectpartners.plummer.distributed_grails.City"
+    private static final String CITY_MAP_NAME = "com.objectpartners.plummer.distributed_grails.data.City"
 
-    protected String getCacheName() {
-        return CITY_CACHE;
+    protected String getMapName() {
+        return CITY_MAP_NAME;
     }
 }

@@ -24,29 +24,33 @@ Verify that Compose is installed and operational:
 `docker-compose version`
 
 ## Run
-Build the custom Docker image we'll use for our Grails nodes. This command may take
-some time depending on your bandwidth - behind the scenes it's downloading a Java8
-VM image and installing Grails onto it. You only need to run this once - the resulting
-custom image will be cached on your machine.
-
-`docker build -t "mplummer/grails" -f Dockerfile.grails .`
-
-Next we need to package the application as a WAR file:
+First we need to package the application as a WAR file:
 
 `grails war`
 
-Using Docker Compose we can launch a cluster of Grails nodes fronted by
+Using Docker Compose we can launch a cluster of Tomcat nodes fronted by
 a round-robin proxy. It may take a few minutes the first time you run
-this command as it downloads the VM image for the Proxy.
+this command as it downloads the VM images for Tomcat and the Proxy.
+Each Tomcat node will deploy the WAR file we built in the previous command.
 
-`docker-compose scale node=3 proxy=1 up --force-recreate -d`
+`docker-compose scale node=3 proxy=1`
 
-Provided the images downloaded and built cleanly we can now shut down these docker
-images running in the background.
+Unfortunately the links capability in docker-compose doesn't work very well when defined
+as unscaled -> scaled containers (they work fine when defined from scaled -> unscaled).
+Scaling a container up or down doesn't add/remove links from other services so we have to
+force Docker to rebuild and restart all the containers so that links are correctly established.
+Seems like a pretty major oversight, especially for a common case like load-balancing, but the
+workaround is pretty trivial:
+
+`docker-compose up --force-recreate -d`
+
+Once you're done you can now shut down the docker containers running in the background.
 
 `docker-compose stop`
 
 ## Cleanup
+To stop all the containers started by docker-compose execute this from the project directory:
+
 `docker-compose stop`
 
 To remove all containers and images from the filesystem you can run the following (assuming you're on a UNIX system).

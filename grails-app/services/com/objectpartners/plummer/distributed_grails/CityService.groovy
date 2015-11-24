@@ -1,14 +1,12 @@
 package com.objectpartners.plummer.distributed_grails
 
-import com.objectpartners.plummer.distributed_grails.cache.CityCacheKeyGenerator
+import com.objectpartners.plummer.distributed_grails.cache.CityCache
+import com.objectpartners.plummer.distributed_grails.cache.CustomCacheKeyGenerator
 import com.objectpartners.plummer.distributed_grails.cache.CustomCacheResolverFactory
-import grails.transaction.Transactional
 
 import javax.cache.annotation.*
 
-@Transactional
-@CacheDefaults(cacheName = "com.objectpartners.plummer.distributed_grails.City",
-cacheResolverFactory = CustomCacheResolverFactory.class)
+@CacheDefaults(cacheName = CityCache.CITY_CACHE_NAME, cacheResolverFactory = CustomCacheResolverFactory.class)
 class CityService {
 
     def cityDataService
@@ -17,25 +15,25 @@ class CityService {
         return cityDataService.keys()
     }
 
-    @CachePut(cacheKeyGenerator = CityCacheKeyGenerator.class)
+    @CachePut(cacheKeyGenerator = CustomCacheKeyGenerator.class)
     City create (@CacheValue City city) {
-        cityDataService.add(city)
+        cityDataService.addOrUpdate(city)
     }
 
-    @CachePut(cacheKeyGenerator = CityCacheKeyGenerator.class)
+    @CachePut(cacheKeyGenerator = CustomCacheKeyGenerator.class)
     City update (@CacheValue City city) {
-        cityDataService.update(city)
+        cityDataService.addOrUpdate(city)
     }
 
     @CacheResult
-    City get (@CacheKey Long id) {
+    City get (@CacheKey long id) {
         System.out.println("Uncached get()")
         cityDataService.get(id)
     }
 
     @CacheRemove
-    void delete (@CacheKey Long id) {
-        cityDataService.remove(flush:true)
+    void delete (@CacheKey long id) {
+        cityDataService.remove(id)
     }
 
     @CacheRemoveAll

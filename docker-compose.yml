@@ -1,12 +1,14 @@
 node:
   image: tomcat:8.0.28-jre8
   volumes:
-    - ./build/distributions/war:/usr/local/tomcat/webapps:rw
+    - ./build/libs/DistributedGrails.war:/usr/local/tomcat/webapps/DistributedGrails.war:ro
 proxy:
   image: tutum/haproxy
   links:
     - node
   ports:
     - "8080:80"
+    - "1936:1936"
   environment:
     - BALANCE=roundrobin
+    - STATS_PORT=1936

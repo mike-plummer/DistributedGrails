@@ -14,7 +14,6 @@ import java.lang.annotation.Annotation
 class CustomCacheResolverFactory implements CacheResolverFactory {
 
     def resolver = new CustomCacheResolver()
-    def cacheManager = Caching.getCachingProvider(HazelcastServerCachingProvider.class.getName()).getCacheManager()
 
     @Override
     CacheResolver getCacheResolver(CacheMethodDetails<? extends Annotation> cacheMethodDetails) {
@@ -27,9 +26,11 @@ class CustomCacheResolverFactory implements CacheResolverFactory {
     }
 
     class CustomCacheResolver implements CacheResolver {
+        def cacheManager = Caching.getCachingProvider(HazelcastServerCachingProvider.class.getName()).getCacheManager()
+
         @Override
         def <K, V> Cache<K, V> resolveCache(CacheInvocationContext<? extends Annotation> ctx) {
-            System.out.println("Retrieving cache...")
+            System.out.println("Retrieving cache ${ctx.getCacheName()}")
             return cacheManager.getCache(ctx.getCacheName())
         }
     }

@@ -1,5 +1,6 @@
 package com.objectpartners.plummer.distributed_grails.caches
 
+import com.hazelcast.config.MapConfig
 import com.hazelcast.core.IMap
 import com.hazelcast.core.IdGenerator
 import com.objectpartners.plummer.distributed_grails.CacheableEntity
@@ -8,36 +9,46 @@ abstract class AbstractDataService<E extends CacheableEntity> {
 
     def hazelcastService
 
-    def count () {
-        return getCacheMap().size()
+    int count () {
+        return getData().size()
     }
 
-    def keys () {
-        return new HashSet<>(getCacheMap().keySet())
+    Set<Long> keys () {
+        return new HashSet<>(getData().keySet())
     }
 
-    def add (E entity) {
-        if (entity.id == null) {
-            entity.id = getIdGenerator().newId()
-        }
-        getCacheMap().lock(entity.id)
-        try {
-            if (getCacheMap().containsKey(entity.id)) {
-                throw new IllegalArgumentException("Duplicate ID being added to cache")
-            }
-            getCacheMap().put(entity.id, entity)
-        } finally {
-            getCacheMap().unlock(entity.id)
-        }
+    E addOrUpdate (E entity) {
+        entity.id = getIdGenerator().newId()
+        getData().put(entity.id, entity)
     }
 
-    protected abstract String getCacheName();
+    E get(long id) {
+        return getData().get(id)
+    }
 
-    protected IMap<Long, E> getCacheMap() {
-        return hazelcastService.getMap(getCacheName())
+    boolean remove(long id) {
+        return getData().remove(id) != null
+    }
+
+    void removeAll() {
+        getData().clear()
+    }
+
+    protected abstract String getMapName();
+
+    protected IMap<Long, E> getData() {
+        return hazelcastService.getMap(getMapName())
     }
 
     protected IdGenerator getIdGenerator() {
-        return hazelcastService.getIdGenerator(getCacheName())
+        return hazelcastService.getIdGenerator(getMapName())
+    }
+
+    protected MapConfig getMapConfig() {
+        MapConfig config = new MapConfig();
+        config.setName(getMapName());
+        // Here is where you could customize behaviors for the Hazelcast maps used
+        // as the 'persistent' data store
+        return config;
     }
 }

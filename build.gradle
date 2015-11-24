@@ -33,7 +33,7 @@ ext {
 // Customize WAR to put archive in ./build/distributions/war instead of ./build/libs
 // to minimize files we expose in the shared Docker volume
 war {
-    destinationDir=file(project.distsDir.getPath() + '/war')
+    archiveName 'DistributedGrails.war'
 }
 
 repositories {
