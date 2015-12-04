@@ -2,7 +2,7 @@ package com.objectpartners.plummer.distributed_grails
 
 import grails.converters.JSON
 
-import javax.cache.CacheManager
+import javax.cache.Cache
 
 class CacheController {
 
@@ -13,10 +13,12 @@ class CacheController {
     def index () {
         def caches = [];
         cacheManager.getCacheNames().each {cacheName ->
-            caches << [name: cacheName, size: cacheManager.getCache(cacheName).size(), source: 'JCache']
+            Cache cache = cacheManager.getCache(cacheName);
+            caches << [name: cacheName, type: cache.getClass().getSimpleName(), size: cache.size(), source: 'JCache']
         }
         hazelcastService.getDistributedObjects().each { distributedObject ->
-            caches << [name: distributedObject.getName(), type: distributedObject.getClass().getSimpleName(), source: 'Hazelcast']
+            caches << [name: distributedObject.getName(), type: distributedObject.getClass().getSimpleName(),
+                       size: (distributedObject instanceof Map) ? ((Map)distributedObject).size() : 'N/A', source: ' Hazelcast ']
         }
         def info = [caches: caches,
                     jcacheProps: cacheManager.getProperties().getProperties()]
