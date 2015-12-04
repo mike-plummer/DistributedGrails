@@ -1,4 +1,3 @@
-import com.hazelcast.core.ILock
 import com.objectpartners.plummer.distributed_grails.City
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -12,12 +11,12 @@ class BootStrap {
     def cityDataService
 
     def init = { servletContext ->
-        // A fairly crude mechanism for ensuring only one cluster member tries to load data into
-        // Hazelcast. We only allow the oldest member of the cluster to perform the inital load.
-        // A better solutions would probably involve distributed locks but is overkill for this
-        // example application.
-        def oldestClusterMember = hazelcastService.getCluster().getMembers().iterator().next()
-        if (oldestClusterMember.getUuid().equals(hazelcastService.getCluster().getLocalMember().getUuid())) {
+        // Use an AtomicReference as a global "data is loaded" indicator. The first node to reach this point
+        // will set the AR to 'true' and the old value (null) will be returned. Since null != true it detects
+        // that it's the first and thus starts loading data. Any other nodes that reach this point will re-set
+        // the AR to true but since the old value will be returned as true as well they know not to load data.
+        Boolean shouldLoadData = hazelcastService.getAtomicReference("CITY_DATA_LOADED_INDICATOR").getAndSet(Boolean.TRUE);
+        if (shouldLoadData != Boolean.TRUE) {
             // Load City data from CSV into Hazelcast
             println("Loading City data...")
             long counter = 0;
@@ -33,7 +32,7 @@ class BootStrap {
             }
             println("City data loaded.")
         } else {
-            println("Not oldest cluster member, skipping City data loading.")
+            println("Detected another node already loaded data, skipping.")
         }
     }
 

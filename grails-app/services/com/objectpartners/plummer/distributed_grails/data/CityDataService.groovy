@@ -1,4 +1,4 @@
-package com.objectpartners.plummer.distributed_grails.caches
+package com.objectpartners.plummer.distributed_grails.data
 
 import com.objectpartners.plummer.distributed_grails.City
 

@@ -13,7 +13,6 @@ After installing Docker make sure you add your user to the 'docker' group.
 
 Logout and log back in for this change to take effect.
 
-
 ### Verification
 Verify that Docker is installed and operational:
 
@@ -66,3 +65,5 @@ docker rm $(docker ps -a -q)
 # Delete all images
 docker rmi $(docker images -q)
 ```
+
+## Tools

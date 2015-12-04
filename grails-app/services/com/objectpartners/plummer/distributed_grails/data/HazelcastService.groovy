@@ -1,4 +1,4 @@
-package com.objectpartners.plummer.distributed_grails.caches
+package com.objectpartners.plummer.distributed_grails.data
 
 import com.hazelcast.config.Config
 import com.hazelcast.core.Hazelcast

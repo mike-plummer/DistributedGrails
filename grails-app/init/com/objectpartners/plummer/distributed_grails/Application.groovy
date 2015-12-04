@@ -1,4 +1,4 @@
-package distributedgrails
+package com.objectpartners.plummer.distributed_grails
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration

@@ -6,6 +6,8 @@ build/
 *.iml
 *.ipr
 *.iws
+/out
+*.log
 .project
 .settings
 .classpath
