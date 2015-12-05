@@ -44,4 +44,12 @@ class CityService {
     def count () {
         cityDataService.count()
     }
+
+    def simpleSumPopulation() {
+        cityDataService.simpleSumPopulation()
+    }
+
+    def distributedSumPopulation() {
+        cityDataService.distributedSumPopulation()
+    }
 }

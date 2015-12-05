@@ -43,4 +43,25 @@ class CityController {
     def delete(Long id) {
         cityService.delete(id)
     }
+
+    // GET /city/population
+    def population() {
+        long start = System.currentTimeMillis()
+        long simplePopulationSum = cityService.simpleSumPopulation()
+        long simpleDuration = System.currentTimeMillis() - start
+
+        start = System.currentTimeMillis()
+        long distributedPopulationSum = cityService.distributedSumPopulation()
+        long distributedDuration = System.currentTimeMillis() - start
+
+        def info = [simple: [
+                        population: simplePopulationSum,
+                        duration: simpleDuration
+                        ],
+                    distributed: [
+                        population: distributedPopulationSum,
+                        duration: distributedDuration
+                    ]]
+        render info as JSON
+    }
 }
