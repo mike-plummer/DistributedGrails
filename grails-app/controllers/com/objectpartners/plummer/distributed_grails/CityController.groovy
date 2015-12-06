@@ -54,14 +54,13 @@ class CityController {
         long distributedPopulationSum = cityService.distributedSumPopulation()
         long distributedDuration = System.currentTimeMillis() - start
 
-        def info = [simple: [
-                        population: simplePopulationSum,
-                        duration: simpleDuration
-                        ],
-                    distributed: [
-                        population: distributedPopulationSum,
-                        duration: distributedDuration
-                    ]]
+        def info = []
+        info << [ method: 'simple',
+                  sum: simplePopulationSum,
+                  duration: simpleDuration ]
+        info << [ method: 'distributed',
+                  sum: distributedPopulationSum,
+                  duration: distributedDuration ]
         render info as JSON
     }
 }

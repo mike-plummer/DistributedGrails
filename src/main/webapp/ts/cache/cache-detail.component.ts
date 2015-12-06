@@ -7,8 +7,12 @@ import {Cache} from './cache.ts';
                Size: {{cache.size}}<br/>
                Type: {{cache.type}}<br/>
                Source: {{cache.source}}
-               </p>`
+               </p>
+               <hr/>`
 })
+/*
+Displays a single distributed objec entry.
+ */
 export class CacheDetailComponent {
     @Input() cache: Cache;
 }
