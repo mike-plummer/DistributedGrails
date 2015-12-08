@@ -7,8 +7,7 @@ import {Cache} from './cache.ts';
                Size: {{cache.size}}<br/>
                Type: {{cache.type}}<br/>
                Source: {{cache.source}}
-               </p>
-               <hr/>`
+               </p>`
 })
 /*
 Displays a single distributed objec entry.

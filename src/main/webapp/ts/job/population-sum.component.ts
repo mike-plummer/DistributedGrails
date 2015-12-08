@@ -6,8 +6,7 @@ import {PopulationSum} from './PopulationSum.ts';
                <p>
                Sum: {{populationSum.sum}}<br/>
                Duration: {{populationSum.duration}}
-               </p>
-               <hr/>`
+               </p>`
 })
 /*
 Manages display of a single Population Summation task

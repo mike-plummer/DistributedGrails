@@ -4,13 +4,14 @@ import {PopulationSum} from "./PopulationSum.ts";
 import {PopulationSumComponent} from "./population-sum.component.ts";
 @Component({
     selector: 'count-population',
-    template: `<button (click)="countPopulation()">
+    template: `<h2>Jobs</h2>
+               <button (click)="countPopulation()">
                    Count Population
                </button>
                <div [hidden]="hidden">
                    <h2>Population Count</h2>
                    <h3>Data supplied by node: {{nodeHostname}}</h3>
-                   <hr/>
+                   <br/>
                    <population-sum *ng-for="#populationSum of populationSums" [populationSum]="populationSum">
                    </population-sum>
                </div>`,

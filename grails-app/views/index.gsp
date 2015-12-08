@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>Distributed Grails</title>
-
+    <asset:stylesheet href="application.css"/>
     <script src="https://code.angularjs.org/tools/system.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typescript/1.7.3/typescript.min.js"></script>
     <script src="https://code.angularjs.org/2.0.0-alpha.48/angular2.min.js"></script>

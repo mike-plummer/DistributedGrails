@@ -5,11 +5,13 @@ import {Cache} from './cache.ts';
 
 @Component({
     selector: 'cache-list',
-    template: `<h2>Distributed Data Structures</h2>
+    template: `<div class="list">
+               <h2>Distributed Data Structures</h2>
                <h3>Data supplied by node: {{nodeHostname}}</h3>
-               <hr/>
+               <br/>
                <cache-detail *ng-for="#cache of caches" [cache]="cache">
-               </cache-detail>`,
+               </cache-detail>
+               </div>`,
     directives: [CacheDetailComponent]
 })
 /*
