@@ -1,0 +1,21 @@
+<h3>Distributed Data Structures</h3>
+Data supplied by node: {{nodeHostname}}
+<br/>
+<table class="u-full-width">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Type</th>
+            <th>Source</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ng-for="#cache of caches">
+            <td>{{cache.name}}</td>
+            <td>{{cache.size}}</td>
+            <td>{{cache.type}}</td>
+            <td>{{cache.source}}</td>
+        </tr>
+    </tbody>
+</table>

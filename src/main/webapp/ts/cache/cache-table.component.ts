@@ -1,23 +1,15 @@
 import {Component} from "angular2/angular2";
 import {Http, Response, Headers} from "angular2/http";
-import {CacheDetailComponent} from './cache-detail.component.ts';
 import {Cache} from './cache.ts';
 
 @Component({
-    selector: 'cache-list',
-    template: `<div class="list">
-               <h2>Distributed Data Structures</h2>
-               <h3>Data supplied by node: {{nodeHostname}}</h3>
-               <br/>
-               <cache-detail *ng-for="#cache of caches" [cache]="cache">
-               </cache-detail>
-               </div>`,
-    directives: [CacheDetailComponent]
+    selector: 'cache-table',
+    templateUrl: `templates/cache-table.html`
 })
 /*
 Lists all Distributed Objects managed by Hazelcast.
  */
-export class CacheListComponent {
+export class CacheTableComponent {
     caches: Array<Cache>;
     nodeHostname: string;
     /*
