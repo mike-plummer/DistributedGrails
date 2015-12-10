@@ -1,7 +1,6 @@
 <html>
 <head>
     <title>Distributed Grails</title>
-    <asset:stylesheet href="application.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
 
     <script src="https://code.angularjs.org/tools/system.js"></script>
