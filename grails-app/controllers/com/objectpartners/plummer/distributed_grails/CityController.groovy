@@ -2,6 +2,9 @@ package com.objectpartners.plummer.distributed_grails
 
 import grails.converters.JSON
 
+/**
+ * Basic CRUD service for city data.
+ */
 class CityController {
 
     def cityService
@@ -45,15 +48,22 @@ class CityController {
     }
 
     // GET /city/population
+    /**
+     * Invokes two different jobs to acquire the  total population of all Cities.
+     * @return
+     */
     def population() {
+        // Pull data locally and iterate
         long start = System.currentTimeMillis()
         long simplePopulationSum = cityService.simpleSumPopulation()
         long simpleDuration = System.currentTimeMillis() - start
 
+        // Fire off MapReduce job to work across the cluster
         start = System.currentTimeMillis()
         long distributedPopulationSum = cityService.distributedSumPopulation()
         long distributedDuration = System.currentTimeMillis() - start
 
+        // Return as JSON
         def info = []
         info << [ method: 'simple',
                   sum: simplePopulationSum,

@@ -14,6 +14,12 @@ class CityDataService extends AbstractDataService<City> {
 
     private static final String CITY_MAP_NAME = "com.objectpartners.plummer.distributed_grails.data.City"
 
+    /**
+     * Pulls all data to the invoking node and iterates to find the total population of all cities.
+     * In large datasets this in very inefficient due to potential memory overload and leaving
+     * CPUs across the cluster underutilized.
+     * @return
+     */
     def simpleSumPopulation() {
         return (Long) getData().values().sum { value ->
             return value.population

@@ -25,6 +25,7 @@ class BootStrap {
                 parser.getRecords().each({ record ->
                     City city = new City(name: record.get("name"), state: record.get("state"), population: Long.valueOf(record.get("population")))
                     cityDataService.addOrUpdate(city)
+                    // Print out a status message every 100 records
                     if (++counter % 100 == 0) {
                         println("Loaded ${counter} records")
                     }

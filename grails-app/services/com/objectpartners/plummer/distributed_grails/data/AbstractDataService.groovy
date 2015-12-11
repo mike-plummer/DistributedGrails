@@ -17,8 +17,6 @@ abstract class AbstractDataService<E extends CacheableEntity> {
         return new HashSet<>(getData().keySet())
     }
 
-
-
     E addOrUpdate (E entity) {
         entity.id = getIdGenerator().newId()
         getData().put(entity.id, entity)
