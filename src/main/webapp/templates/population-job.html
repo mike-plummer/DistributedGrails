@@ -6,7 +6,7 @@
             </button><br/>
             <p [hidden]="hidden">Data supplied by node: {{nodeHostname}}</p>
         </div>
-        <div class="four columns" *ng-for="#result of results">
+        <div class="four columns" *ngFor="#result of results">
             <population-result [result]="result"></population-result>
         </div>
     </div>
