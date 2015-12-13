@@ -26,6 +26,9 @@ Verify that Compose is installed and operational:
 
 `docker-compose version`
 
+## Environment
+This application was developed and tested on Ubuntu 15.10 x64 using Chrome, Firefox, and the software versions details under 'Tools'. Your mileage in other environments may vary.
+
 ## Launch
 First we need to package the application as a WAR file:
 
