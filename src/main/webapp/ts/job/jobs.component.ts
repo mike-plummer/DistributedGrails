@@ -1,4 +1,4 @@
-import {Component} from "angular2/angular2";
+import {Component} from "angular2/core";
 import {PopulationJobComponent} from "./population-job.component.ts";
 @Component({
     selector: 'jobs',

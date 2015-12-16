@@ -1,4 +1,4 @@
-import {Component} from "angular2/angular2";
+import {Component} from "angular2/core";
 import {Http, Response, Headers} from "angular2/http";
 import {Cache} from './cache.ts';
 

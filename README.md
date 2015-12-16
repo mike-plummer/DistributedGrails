@@ -1,7 +1,7 @@
 # DistributedGrails
 Example of clustering Grails using Docker Compose and sharing data within the cluster using Hazelcast.
 
-Fair warning: This was built with Alpha software which is subject to change. Any deviation from the versions and setup described herein will likely break something.
+Fair warning: This was built with Beta software which is subject to change. Any deviation from the versions and setup described herein will likely break something.
 
 ## Installation
 This application makes use of Docker and Docker Compose to execute the Grails app on a dynamically-scalable set of 'virtual machines'. If you really don't want to install this software you don't have to - the Grails app can be run independently and all the features will work the same except that it will all be isolated to a single instance and all URL's referenced in this README won't have the 'DistributedGrails' context path.
@@ -82,7 +82,7 @@ docker rmi $(docker images -q)
 * [Docker](https://www.docker.com/) v1.9.1
 * [Docker Compose](https://docs.docker.com/compose/) v1.5.2
 * [Hazelcast](http://hazelcast.org/) v3.5.4
-* [Angular2](https://angular.io/) v2.0.0 alpha52
+* [Angular2](https://angular.io/) v2.0.0 beta0
 * [HAProxy](https://github.com/tutumcloud/haproxy)
 * [Tomcat](https://tomcat.apache.org/) v8.0.28
 * [Grails](https://grails.org/) v3.0.10

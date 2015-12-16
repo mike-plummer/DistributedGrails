@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/angular2';
+import {Component, Input} from 'angular2/core';
 import {Http, Response, Headers} from "angular2/http";
 import {PopulationResultComponent} from './population-result.component.ts';
 import {PopulationSum} from './PopulationSum.ts';
