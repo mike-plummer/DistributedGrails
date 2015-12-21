@@ -27,7 +27,7 @@ Verify that Compose is installed and operational:
 `docker-compose version`
 
 ## Environment
-This application was developed and tested on Ubuntu 15.10 x64 using Chrome, Firefox, and the software versions details under 'Tools'. Your mileage in other environments may vary.
+This application was developed and tested on Ubuntu 15.10 x64 using Chrome, Firefox, and the software versions detailed under 'Tools'. Your mileage in other environments may vary.
 
 ## Launch
 First we need to package the application as a WAR file:
@@ -49,6 +49,7 @@ At this point we have a single Tomcat node. We can scale the cluster to any numb
 Unfortunately the links capability in docker-compose doesn't work very well when defined as unscaled -> scaled containers (they work fine when defined from scaled -> unscaled). Scaling a container up or down doesn't add/remove links from other services so we have to force Docker to rebuild and restart all the containers so that links are correctly established. If we don't do this the proxy won't react to the add/removed nodes. Annoying for sure, but the workaround is pretty trivial:
 
 `docker-compose stop`
+
 `docker-compose up -d --force-recreate`
 
 To get the status of the load balancer and the backing cluster you can access HAProxy's [stats page](http://localhost:1936) with username/password `stats/stats`. This is a good way to make sure that the proxy is connecting to the entire cluster.
