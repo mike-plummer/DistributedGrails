@@ -2,7 +2,7 @@ import {Component} from "angular2/core";
 import {PopulationJobComponent} from "./population-job.component.ts";
 @Component({
     selector: 'jobs',
-    templateUrl: `templates/jobs.html`,
+    templateUrl: `static/templates/jobs.html`,
     directives: [PopulationJobComponent]
 })
 /*

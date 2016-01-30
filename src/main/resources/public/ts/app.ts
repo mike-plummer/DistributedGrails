@@ -4,7 +4,7 @@ import {CacheTableComponent} from './cache/cache-table.component.ts';
 import {JobsComponent} from "./job/jobs.component.ts";
 @Component({
     selector: 'dist-grails',
-    templateUrl: 'templates/app.html',
+    templateUrl: 'static/templates/app.html',
     directives: [CacheTableComponent, JobsComponent],
     providers: [HTTP_PROVIDERS]
 })

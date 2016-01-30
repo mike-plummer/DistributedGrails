@@ -4,7 +4,7 @@ import {PopulationResultComponent} from './population-result.component.ts';
 import {PopulationSum} from './PopulationSum.ts';
 @Component({
     selector: 'population-job',
-    templateUrl: `templates/population-job.html`,
+    templateUrl: `static/templates/population-job.html`,
     directives: [PopulationResultComponent]
 })
 /*

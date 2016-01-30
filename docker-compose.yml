@@ -1,5 +1,5 @@
 node:
-  image: tomcat:8.0.28-jre8
+  image: tomcat:8.0.29-jre8
   volumes:
     - ./build/libs/DistributedGrails.war:/usr/local/tomcat/webapps/DistributedGrails.war:ro
 proxy:

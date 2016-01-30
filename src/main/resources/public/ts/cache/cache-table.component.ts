@@ -4,7 +4,7 @@ import {Cache} from './cache.ts';
 
 @Component({
     selector: 'cache-table',
-    templateUrl: `templates/cache-table.html`
+    templateUrl: `static/templates/cache-table.html`
 })
 /*
 Lists all Distributed Objects managed by Hazelcast.

@@ -81,8 +81,8 @@ docker rmi $(docker images -q)
 ## Tools
 * [Docker](https://www.docker.com/) v1.9.1
 * [Docker Compose](https://docs.docker.com/compose/) v1.5.2
-* [Hazelcast](http://hazelcast.org/) v3.5.4
-* [Angular2](https://angular.io/) v2.0.0 beta0
+* [Hazelcast](http://hazelcast.org/) v3.6
+* [Angular2](https://angular.io/) v2.0.0 beta2
 * [HAProxy](https://github.com/tutumcloud/haproxy)
-* [Tomcat](https://tomcat.apache.org/) v8.0.28
-* [Grails](https://grails.org/) v3.0.10
+* [Tomcat](https://tomcat.apache.org/) v8.0.29
+* [Grails](https://grails.org/) v3.1.0
