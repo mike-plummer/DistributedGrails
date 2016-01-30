@@ -1,4 +1,4 @@
-# DistributedGrails
+# Distributed Grails
 Example of clustering Grails using Docker Compose and sharing data within the cluster using Hazelcast.
 
 Fair warning: This was built with Beta software which is subject to change. Any deviation from the versions and setup described herein will likely break something.
@@ -9,7 +9,7 @@ This application makes use of Docker and Docker Compose to execute the Grails ap
 ### Install Docker and Docker Compose
 Follow the [installation instructions](https://docs.docker.com/compose/install/).
 
-After installing Docker make sure you add your user to the 'docker' group.
+After installing Docker make sure you add your user to the 'docker' group (for UNIX users, Windows users will have to read the docs).
 
 `sudo usermod -aG docker {username}`
 
@@ -27,14 +27,14 @@ Verify that Compose is installed and operational:
 `docker-compose version`
 
 ## Environment
-This application was developed and tested on Ubuntu 15.10 x64 using Chrome, Firefox, and the software versions details under 'Tools'. Your mileage in other environments may vary.
+This application was developed and tested on Ubuntu 15.10 x64 using Chrome, Firefox, and the software versions detailed under 'Tools'. Your mileage in other environments may vary.
 
 ## Launch
 First we need to package the application as a WAR file:
 
 `grails war`
 
-Using Docker Compose we can launch a Tomcat node fronted by a round-robin proxy. It may take several minutes the first time you run this command as it downloads the container images for Tomcat and HAProxy. The Tomcat node will deploy the WAR file we built in the previous command.
+Using Docker Compose we can launch a Tomcat node fronted by a round-robin proxy. It will take several minutes (depending on your bandwidth) the first time you run this command as it downloads the container images for Tomcat and HAProxy. The Tomcat node will deploy the WAR file we built in the previous command. In this command `up` tells docker-compose to launch the containers and `-d` causes them to run in the background.
 
 `docker-compose up -d`
 
@@ -42,13 +42,14 @@ You can keep tabs on the launch process by tailing the container logs:
 
 `docker-compose logs`
 
-At this point we have a single Tomcat node. We can scale the cluster to any number of nodes we want - this will spin up additional Tomcat containers each of which will deploy the Grails app automatically.
+At this point we have a single Tomcat node. We can scale the cluster to any number of nodes we want - this will spin up additional Tomcat containers each of which will deploy the Grails app automatically. In this command `node` is the name of the container as specified in the docker-compose config file.
 
 `docker-compose scale node=4`
 
 Unfortunately the links capability in docker-compose doesn't work very well when defined as unscaled -> scaled containers (they work fine when defined from scaled -> unscaled). Scaling a container up or down doesn't add/remove links from other services so we have to force Docker to rebuild and restart all the containers so that links are correctly established. If we don't do this the proxy won't react to the add/removed nodes. Annoying for sure, but the workaround is pretty trivial:
 
 `docker-compose stop`
+
 `docker-compose up -d --force-recreate`
 
 To get the status of the load balancer and the backing cluster you can access HAProxy's [stats page](http://localhost:1936) with username/password `stats/stats`. This is a good way to make sure that the proxy is connecting to the entire cluster.
@@ -56,20 +57,17 @@ To get the status of the load balancer and the backing cluster you can access HA
 ## Use it!
 Hit the [landing page](http://localhost:8080/DistributedGrails/) to access the cluster info page. This contacts one of the cluster members and gets the status of all the caches and Hazelcast distributed objects registered in the cluster. Reloading this page will reflect a different hostname being the source of the data - this is due to HAProxy round-robining you around the Docker cluster.
 
-Grails services are exposed to supply [cache data](http://localhost:8080/DistributedGrails/cache) and [city data](http://localhost:8080/DistributedGrails/city). Try accessing a few city records from the [city service](http://localhost:8080/DistributedGrails/city/0) (change the last path parameter to get different IDs) then reload the landing page. You should see the size of the JCache map increasing as those records are automatically added to the cache.
+Grails services are exposed to supply [cache data](http://localhost:8080/DistributedGrails/cache) and [city data](http://localhost:8080/DistributedGrails/city). Try accessing a few city records from the [city service](http://localhost:8080/DistributedGrails/city/0) (change the last path parameter to get different IDs) then reload the landing page. You should see the size of the JCache map increasing as those records are automatically added to the cache. In this example the JCache map expires entries after one minute but eviction logic only fires when a JCache action is invoked, not in the background.
 
-The landing page also features an example of a job that totals the population of all the city data that is loaded. This job shows off another of Hazelcast's great features, especially useful when you're working with truly massive datasets. First a 'simple' summation of the population of all Cities is run by iterating the entire dataset on a single cluster node, followed by a distributed job to sum populations stored on each cluster node then combine the results MapReduce-style. Due to the small size of the dataset and the fact that the Docker containers are all sharing the same processor the distributed job will likely be slower in this example due to the overhead incurred by splitting up and recombining the job.
-
-Once you're done you can shut down the docker containers running in the background.
-
-`docker-compose stop`
+The landing page also features an example of a job that totals the population of all the city data that is loaded. This job shows off another of Hazelcast's great features, especially useful when you're working with truly massive datasets. First a 'simple' summation of the population of all Cities is run by iterating the entire dataset on a single cluster node, followed by a distributed job to sum populations stored on each cluster node then combine the results MapReduce-style. Due to the small size of the dataset and the fact that the Docker containers are all sharing the same processor the distributed job will likely be slower in this example due to the overhead incurred by splitting up and recombining the job - in a real clustered environment with a significant dataset (we're talking gigabytes, here) the MapReduce approach will not only blow away the simple approach in performance but will likely be the only option due to the memory limits of loading the dataset onto a single node.
 
 ## Cleanup
 To stop all the containers started by docker-compose execute this from the project directory:
 
 `docker-compose stop`
 
-To remove all containers and images from the filesystem you can run the following (assuming you're on a UNIX system). This will remove ALL items, not just those from this project, so you should probably clean things up manually if you use Docker for other projects.
+To remove all containers and images from the filesystem you can run the following (assuming you're on a UNIX system). This will remove ALL containers and images, not just those from this project, so you should probably clean things up manually if you use Docker for other projects.
+
 ```
 #!/bin/bash
 # Delete all containers and their data volumes (if any)
